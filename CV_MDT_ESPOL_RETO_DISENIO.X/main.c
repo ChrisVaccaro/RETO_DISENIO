@@ -42,6 +42,7 @@
 */
 #pragma warning disable 520,1498
 #include "mcc_generated_files/mcc.h"
+#include "user.h"
 
 /*
                          Main application
@@ -65,10 +66,16 @@ void main(void)
 
     // Disable the Peripheral Interrupts
     //INTERRUPT_PeripheralInterruptDisable();
-
+    
+    I2C_Initialize();
+    I2C_Master_Initialize();
+    
     while (1)
     {
-        // Add your application code
+        WRITE_EEPROM_I2C(0xA0, 0x01, 0x55);
+        __delay_ms(5000);
+        LATC = READ_EEPROM_DATA(0xA0, 0x00);
+        __delay_ms(5000);
     }
 }
 /**
