@@ -72,10 +72,14 @@ void main(void)
     
     while (1)
     {
-        WRITE_EEPROM_I2C(0xA0, 0x01, 0x55);
+        for(int i = 0; i<16; i++){
+            WRITE_EEPROM_I2C(0xA0, i, i);
+        }
         __delay_ms(5000);
-        LATC = READ_EEPROM_DATA(0xA0, 0x00);
-        __delay_ms(5000);
+        for(int i = 0; i<16; i++){
+            WRITE_EEPROM_I2C(0xA0, i+16, READ_EEPROM_DATA(0xA0, i));
+            __delay_ms(1000);
+        }
     }
 }
 /**

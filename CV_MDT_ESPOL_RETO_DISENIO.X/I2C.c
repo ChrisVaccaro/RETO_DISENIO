@@ -37,8 +37,6 @@ void I2C_Slave_Initialize(short address){
     SSP1CON2        = 0x00;
     SSP1CON3        = 0x00; 
     SSP1ADD         = address;
-    INTCONbits.GIE  = 1;
-    INTCONbits.PEIE = 1;
     PIR1bits.SSP1IF = 0;
     PIE1bits.SSP1IE = 1;
 
@@ -46,22 +44,22 @@ void I2C_Slave_Initialize(short address){
 }
 
 void I2C_Start(void){
-    SSP1CON2bits.SEN= 1;            
-    while (SSP1CON2bits.SEN);
+    while(SSP1STATbits.R_nW || SSP1CON2&0x1F);
+    SSP1CON2bits.SEN= 1;
     
     return;
 }
 
 void I2C_Restart(void){
-    SSP1CON2bits.RSEN = 1;          
-    while (SSP1CON2bits.RSEN); 
+    while(SSP1STATbits.R_nW || SSP1CON2&0x1F);
+    SSP1CON2bits.RSEN = 1;
     
     return;
 }
 
 void I2C_Stop(void){
-    SSP1CON2bits.PEN = 1; 
-    while (SSP1CON2bits.PEN); 
+    while(SSP1STATbits.R_nW || SSP1CON2&0x1F);
+    SSP1CON2bits.PEN = 1;
     
     return;
 }
@@ -83,21 +81,17 @@ void I2C_NACK(void){
 }
 
 void I2C_Write(uint8_t data){
-    PIR1bits.SSP1IF = 0; 
+    while(SSP1STATbits.R_nW || SSP1CON2&0x1F);
     SSP1BUF = data;
-    while (!PIR1bits.SSP1IF); 
 
     return;
 }
 
 uint8_t I2C_Read(void){
     uint8_t data_rx     = 0x00;
-
-    data_rx             = SSP1BUF;
-    SSP1CON2bits.RCEN   = 1; 
-    PIR1bits.SSP1IF     = 0;
-    while(!SSP1STATbits.BF);
-    
+    while(SSP1STATbits.R_nW || SSP1CON2&0x1F);
+    SSP1CON2bits.RCEN   = 1;
+    while(SSP1STATbits.R_nW || SSP1CON2&0x1F);
     data_rx             = SSP1BUF;
     SSP1CON2bits.ACKDT  = 1;
     SSP1CON2bits.ACKEN  = 1;
