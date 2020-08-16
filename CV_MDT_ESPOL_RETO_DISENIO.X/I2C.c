@@ -126,7 +126,7 @@ void I2C_Slave_ISR(void){
         SSPCON1bits.CKP = 1;
         while(SSP1STATbits.BF);
     }
-    PIR1bits.SSP1IF == 0;
+    PIR1bits.SSP1IF = 0;
 }
 
 bool I2C_isDataReady(void){
