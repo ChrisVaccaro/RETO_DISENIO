@@ -7,6 +7,9 @@
 
 #include "I2C.h"
 
+bool newData = false;
+uint8_t dataSlave=0;
+
 void I2C_Initialize(void){
     TRISAbits.TRISA2 = 1;
     TRISAbits.TRISA4 = 1;  
@@ -97,4 +100,40 @@ uint8_t I2C_Read(void){
     SSP1CON2bits.ACKEN  = 1;
     
     return data_rx;
+}
+
+void I2C_Slave_ISR(void){
+    SSPCON1bits.CKP = 0;
+    
+    if(SSPCON1bits.SSPOV || SSPCON1bits.WCOL){//Si hay desborde o colision
+        uint8_t valor = SSP1BUF; //limpiar el buffer
+        SSPCON1bits.SSPOV = 0;
+        SSPCON1bits.WCOL = 0;
+        SSPCON1bits.CKP = 1;
+    }
+    
+    if(!SSP1STATbits.D_nA && !SSP1STATbits.R_nW){//address+write
+        uint8_t valor = SSP1BUF; //limpiar el buffer(address)
+        while(!SSP1STATbits.BF);
+        dataSlave = SSP1BUF;
+        newData = true;
+        SSPCON1bits.CKP = 1;
+    }
+    else if(!SSP1STATbits.D_nA && SSP1STATbits.R_nW){//address+read
+        uint8_t valor = SSP1BUF; //limpiar el buffer(address)
+        SSP1STATbits.BF = 0;
+        SSP1BUF = 0;
+        SSPCON1bits.CKP = 1;
+        while(SSP1STATbits.BF);
+    }
+    PIR1bits.SSP1IF == 0;
+}
+
+bool I2C_isDataReady(void){
+    return newData;
+}
+
+uint8_t I2C_getDataSlave(void){
+    newData = false;
+    return dataSlave;
 }

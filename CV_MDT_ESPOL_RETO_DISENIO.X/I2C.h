@@ -1,6 +1,6 @@
 #include <xc.h>
 #include <stdint.h>
-
+#include <stdbool.h>
 /*
  * PARA DESARROLLAR LA APLICACION COPIA LA FUNCION QUE REQUIERAS
  * 
@@ -38,3 +38,5 @@ void I2C_ACK(void);
 void I2C_NACK(void);
 void I2C_Write(uint8_t data);
 uint8_t I2C_Read(void);
+
+void I2C_Slave_ISR(void);
