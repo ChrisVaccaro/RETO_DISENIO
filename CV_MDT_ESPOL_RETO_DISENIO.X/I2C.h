@@ -40,3 +40,5 @@ void I2C_Write(uint8_t data);
 uint8_t I2C_Read(void);
 
 void I2C_Slave_ISR(void);
+bool I2C_isDataReady(void);
+uint8_t I2C_getDataSlave(void);
