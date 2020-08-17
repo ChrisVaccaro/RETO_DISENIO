@@ -37,3 +37,26 @@ uint8_t READ_EEPROM_DATA(uint8_t address,uint16_t reg){
     
     return data; 
 }
+
+void WRITE_SLAVE_I2C(uint8_t address,uint8_t data) {
+    
+    I2C_Start();    
+    I2C_Write(address);
+    I2C_Write(data); 
+    I2C_Stop();
+    __delay_ms(100);
+    
+    return;
+}
+
+uint8_t READ_SLAVE_DATA(uint8_t address){
+    uint8_t data;
+    
+    I2C_Start ();
+    I2C_Write (address|1);
+    data= I2C_Read();  
+    I2C_Stop ();  
+    __delay_ms (100); 
+    
+    return data; 
+}

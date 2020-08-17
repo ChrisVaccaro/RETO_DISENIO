@@ -72,14 +72,9 @@ void main(void)
     
     while (1)
     {
-        for(int i = 0; i<16; i++){
-            WRITE_EEPROM_I2C(0xA0, i, i);
-        }
-        __delay_ms(5000);
-        for(int i = 0; i<16; i++){
-            WRITE_EEPROM_I2C(0xA0, i+16, READ_EEPROM_DATA(0xA0, i));
-            __delay_ms(1000);
-        }
+        uint8_t dato = READ_SLAVE_DATA(0x20);
+        WRITE_SLAVE_I2C(0x20,dato);
+        __delay_ms(1000);
     }
 }
 /**

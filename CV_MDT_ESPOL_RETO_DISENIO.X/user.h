@@ -67,6 +67,8 @@ extern "C" {
 
 void WRITE_EEPROM_I2C(uint8_t address,uint16_t reg,uint8_t data);
 uint8_t READ_EEPROM_DATA(uint8_t address,uint16_t reg);
+void WRITE_SLAVE_I2C(uint8_t address,uint8_t data);
+uint8_t READ_SLAVE_DATA(uint8_t address);
 
 #ifdef	__cplusplus
 }
