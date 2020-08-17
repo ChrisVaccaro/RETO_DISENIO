@@ -40,9 +40,9 @@
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
     SOFTWARE.
 */
-#pragma warning disable 520,1498
+#pragma warning disable 520
 #include "mcc_generated_files/mcc.h"
-#include "user.h"
+#include "I2C.h"
 
 /*
                          Main application
@@ -66,15 +66,26 @@ void main(void)
 
     // Disable the Peripheral Interrupts
     //INTERRUPT_PeripheralInterruptDisable();
-    
     I2C_Initialize();
-    I2C_Master_Initialize();
-    
+    I2C_Slave_Initialize(0x20);
+
     while (1)
     {
-        uint8_t dato = READ_SLAVE_DATA(0x20);
-        WRITE_SLAVE_I2C(0x20,dato);
-        __delay_ms(1000);
+        if(I2C_isDataReady()){
+            LATC = I2C_getDataSlave();
+        }
+    }
+}
+
+void __interrupt() INTERRUPT_InterruptManager (void)
+{
+    // interrupt handler
+    if(INTCONbits.PEIE == 1)
+    {
+        if(PIE1bits.SSP1IE == 1 && PIR1bits.SSP1IF == 1)
+        {
+            I2C_Slave_ISR();
+        }
     }
 }
 /**

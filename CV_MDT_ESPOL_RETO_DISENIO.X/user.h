@@ -32,10 +32,8 @@
 #define	XC_HEADER_TEMPLATE_H
 
 #include <xc.h> // include processor files - each processor file is guarded.  
-
-// TODO Insert appropriate #include <>
-
-// TODO Insert C++ class definitions if appropriate
+#include <stdint.h>
+#include "I2C.h"
 
 // TODO Insert declarations
 
@@ -67,8 +65,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
-    // TODO If C++ is being used, regular C code needs function names to have C 
-    // linkage so the functions can be used by the c code. 
+void WRITE_EEPROM_I2C(uint8_t address,uint16_t reg,uint8_t data);
+uint8_t READ_EEPROM_DATA(uint8_t address,uint16_t reg);
+void WRITE_SLAVE_I2C(uint8_t address,uint8_t data);
+uint8_t READ_SLAVE_DATA(uint8_t address);
 
 #ifdef	__cplusplus
 }

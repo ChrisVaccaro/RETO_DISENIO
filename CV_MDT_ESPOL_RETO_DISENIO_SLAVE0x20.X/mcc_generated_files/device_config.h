@@ -1,21 +1,24 @@
 /**
-  Generated Main Source File
+  @Generated PIC10 / PIC12 / PIC16 / PIC18 MCUs Header File
 
-  Company:
+  @Company:
     Microchip Technology Inc.
 
-  File Name:
-    main.c
+  @File Name:
+    mcc.c
 
-  Summary:
-    This is the main file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+  @Summary:
+    This is the device_config.h file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
-  Description:
+  @Description:
     This header file provides implementations for driver APIs for all modules selected in the GUI.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.81.4
         Device            :  PIC16F1619
         Driver Version    :  2.00
+    The generated drivers are tested against the following:
+        Compiler          :  XC8 2.20 and above or later
+        MPLAB             :  MPLAB X 5.40
 */
 
 /*
@@ -40,43 +43,13 @@
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
     SOFTWARE.
 */
-#pragma warning disable 520,1498
-#include "mcc_generated_files/mcc.h"
-#include "user.h"
 
-/*
-                         Main application
- */
-void main(void)
-{
-    // initialize the device
-    SYSTEM_Initialize();
+#ifndef DEVICE_CONFIG_H
+#define	DEVICE_CONFIG_H
 
-    // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
-    // Use the following macros to:
+#define _XTAL_FREQ 32000000
 
-    // Enable the Global Interrupts
-    //INTERRUPT_GlobalInterruptEnable();
-
-    // Enable the Peripheral Interrupts
-    //INTERRUPT_PeripheralInterruptEnable();
-
-    // Disable the Global Interrupts
-    //INTERRUPT_GlobalInterruptDisable();
-
-    // Disable the Peripheral Interrupts
-    //INTERRUPT_PeripheralInterruptDisable();
-    
-    I2C_Initialize();
-    I2C_Master_Initialize();
-    
-    while (1)
-    {
-        uint8_t dato = READ_SLAVE_DATA(0x20);
-        WRITE_SLAVE_I2C(0x20,dato);
-        __delay_ms(1000);
-    }
-}
+#endif	/* DEVICE_CONFIG_H */
 /**
  End of File
 */
