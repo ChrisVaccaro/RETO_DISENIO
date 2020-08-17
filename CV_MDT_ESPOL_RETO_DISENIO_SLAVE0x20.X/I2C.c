@@ -1,7 +1,7 @@
 /*
  * File:   I2C.c
  * Author: MDTECHNOLOGY <www.mdtechnology.com.ec>
- *
+ * Co-Author: Christopher Vaccaro
  * Created on August 8, 2020, 1:02 AM
  */
 
@@ -11,13 +11,13 @@ bool newData = false;
 uint8_t dataSlave=0;
 
 void I2C_Initialize(void){
-    TRISAbits.TRISA2 = 1;
-    TRISAbits.TRISA4 = 1;  
+    TRISBbits.TRISB5 = 1;
+    TRISBbits.TRISB7 = 1;  
     
-    SSPDATPPS = 0X04;   //RA4->MSSP:SDA;    
-    RA4PPS = 0X11;   //RA4->MSSP:SDA;    
-    RA2PPS = 0X10;   //RA2->MSSP:SCL;    
-    SSPCLKPPS = 0X02 ;   //RA2->MSSP:SCL;    
+    SSPDATPPS = 0X0F;   //RB7->MSSP:SDA;    
+    RB7PPS = 0X11;   //RB7->MSSP:SDA;    
+    RB5PPS = 0X10;   //RB5->MSSP:SCL;    
+    SSPCLKPPS = 0X0D ;   //RB5->MSSP:SCL;    
     
     return;
 }
@@ -124,7 +124,7 @@ void I2C_Slave_ISR(void){
     else if(!SSP1STATbits.D_nA && SSP1STATbits.R_nW){//address+read
         uint8_t valor = SSP1BUF; //limpiar el buffer(address)
         SSP1STATbits.BF = 0;
-        SSP1BUF = PORTA & 0x03;
+        SSP1BUF = (PORTA & 0x30)>>1 | (PORTA & 0x07);
         SSPCON1bits.CKP = 1;
         while(SSP1STATbits.BF);
     }
