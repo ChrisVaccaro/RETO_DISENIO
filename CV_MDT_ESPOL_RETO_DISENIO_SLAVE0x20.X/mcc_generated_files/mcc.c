@@ -62,9 +62,6 @@ void OSCILLATOR_Initialize(void)
     // SBOREN disabled; BORFS disabled; 
     BORCON = 0x00;
     // Wait for PLL to stabilize
-    while(PLLR == 0)
-    {
-    }
 }
 
 

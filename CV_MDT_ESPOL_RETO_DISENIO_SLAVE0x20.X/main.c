@@ -66,10 +66,14 @@ void main(void)
 
     // Disable the Peripheral Interrupts
     //INTERRUPT_PeripheralInterruptDisable();
+    I2C_Initialize();
+    I2C_Slave_Initialize(0x20);
 
     while (1)
     {
-        // Add your application code
+        if(I2C_isDataReady()){
+            LATC = I2C_getDataSlave();
+        }
     }
 }
 
