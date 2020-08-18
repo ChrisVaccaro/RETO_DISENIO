@@ -9,6 +9,25 @@
 #include <xc.h>
 #include "user.h"
 
+uint8_t contador = 0;
+bool change = false;
+
+void incCounter(void){
+    contador = (contador>=99)?0:contador+1;
+    change = true;
+}
+void decCounter(void){
+    contador = (contador<=0)?99:contador-1;
+    change = true;
+}
+uint8_t getCounter(void){
+    change = false;
+    return contador;
+}
+bool isChangeCounter(void){
+    return change;
+}
+
 void WRITE_EEPROM_I2C(uint8_t address,uint16_t reg,uint8_t data) {
     
     I2C_Start();    

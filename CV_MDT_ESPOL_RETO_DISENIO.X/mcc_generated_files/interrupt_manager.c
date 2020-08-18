@@ -1,21 +1,26 @@
 /**
-  Generated Main Source File
+  Generated Interrupt Manager Source File
 
-  Company:
+  @Company:
     Microchip Technology Inc.
 
-  File Name:
-    main.c
+  @File Name:
+    interrupt_manager.c
 
-  Summary:
-    This is the main file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+  @Summary:
+    This is the Interrupt Manager file generated using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
-  Description:
-    This header file provides implementations for driver APIs for all modules selected in the GUI.
+  @Description:
+    This header file provides implementations for global interrupt handling.
+    For individual peripheral handlers please see the peripheral driver for
+    all modules selected in the GUI.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.81.4
         Device            :  PIC16F1619
-        Driver Version    :  2.00
+        Driver Version    :  2.03
+    The generated drivers are tested against the following:
+        Compiler          :  XC8 2.20 and above or later
+        MPLAB 	          :  MPLAB X 5.40
 */
 
 /*
@@ -40,34 +45,20 @@
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
     SOFTWARE.
 */
-#pragma warning disable 520,1498
-#include "mcc_generated_files/mcc.h"
-#include "user.h"
 
-/*
-                         Main application
- */
-void main(void)
+#include "interrupt_manager.h"
+#include "mcc.h"
+
+void __interrupt() INTERRUPT_InterruptManager (void)
 {
-    // initialize the device
-    SYSTEM_Initialize();
-
-    INTERRUPT_GlobalInterruptEnable();
-    INTERRUPT_PeripheralInterruptEnable();
-    IOCAF0_SetInterruptHandler(incCounter);
-    IOCAF1_SetInterruptHandler(decCounter);
-    
-    I2C_Initialize();
-    I2C_Master_Initialize();
-    
-    while (1)
+    // interrupt handler
+    if(INTCONbits.IOCIE == 1 && INTCONbits.IOCIF == 1)
     {
-        if(isChangeCounter()){
-            WRITE_SLAVE_I2C(0x20,getCounter());
-        }
-        /*uint8_t dato = READ_SLAVE_DATA(0x20);
-        WRITE_SLAVE_I2C(0x20,dato);
-        __delay_ms(1000);*/
+        PIN_MANAGER_IOC();
+    }
+    else
+    {
+        //Unhandled Interrupt
     }
 }
 /**
