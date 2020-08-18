@@ -36,6 +36,11 @@
 #include <stdbool.h>
 #include "I2C.h"
 
+#define ADDRESS_SLAVE1          0X20
+#define ADDRESS_SLAVE2          0X30
+#define ADDRESS_SLAVE_EEPROM    0XA0
+#define ADDRESS_EEPROM_EXT_INIT 0XFF
+#define VALUE_EEPROM_EXT_INIT   0X55
 // TODO Insert declarations
 
 // Comment a function and leverage automatic documentation with slash star star

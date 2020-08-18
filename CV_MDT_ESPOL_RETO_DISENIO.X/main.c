@@ -63,7 +63,7 @@ void main(void)
     while (1)
     {
         if(isChangeCounter()){
-            WRITE_SLAVE_I2C(0x20,getCounter());
+            WRITE_SLAVE_I2C(ADDRESS_SLAVE1,getCounter());
         }
         /*uint8_t dato = READ_SLAVE_DATA(0x20);
         WRITE_SLAVE_I2C(0x20,dato);
