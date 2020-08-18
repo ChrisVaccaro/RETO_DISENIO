@@ -42,8 +42,6 @@ void I2C_Slave_Initialize(short address){
     SSP1ADD         = address;
     PIR1bits.SSP1IF = 0;
     PIE1bits.SSP1IE = 1;
-    INTCONbits.PEIE = 1;
-    INTCONbits.GIE = 1;
 
     return;
 }

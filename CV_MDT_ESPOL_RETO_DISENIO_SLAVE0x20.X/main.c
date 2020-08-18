@@ -42,6 +42,7 @@
 */
 #pragma warning disable 520
 #include "mcc_generated_files/mcc.h"
+#include "user.h"
 #include "I2C.h"
 
 /*
@@ -49,42 +50,19 @@
  */
 void main(void)
 {
-    // initialize the device
     SYSTEM_Initialize();
 
-    // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
-    // Use the following macros to:
+    INTERRUPT_GlobalInterruptEnable();
+    INTERRUPT_PeripheralInterruptEnable();
 
-    // Enable the Global Interrupts
-    //INTERRUPT_GlobalInterruptEnable();
-
-    // Enable the Peripheral Interrupts
-    //INTERRUPT_PeripheralInterruptEnable();
-
-    // Disable the Global Interrupts
-    //INTERRUPT_GlobalInterruptDisable();
-
-    // Disable the Peripheral Interrupts
-    //INTERRUPT_PeripheralInterruptDisable();
     I2C_Initialize();
     I2C_Slave_Initialize(0x20);
-
+    TMR0_SetInterruptHandler(displayISR);
+    
     while (1)
     {
         if(I2C_isDataReady()){
-            LATC = I2C_getDataSlave();
-        }
-    }
-}
-
-void __interrupt() INTERRUPT_InterruptManager (void)
-{
-    // interrupt handler
-    if(INTCONbits.PEIE == 1)
-    {
-        if(PIE1bits.SSP1IE == 1 && PIR1bits.SSP1IF == 1)
-        {
-            I2C_Slave_ISR();
+            setCounter(I2C_getDataSlave());
         }
     }
 }
