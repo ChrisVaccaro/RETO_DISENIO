@@ -41,6 +41,9 @@
 #define ADDRESS_SLAVE_EEPROM    0XA0
 #define ADDRESS_EEPROM_EXT_INIT 0XFF
 #define VALUE_EEPROM_EXT_INIT   0X55
+
+#define DEFAULT_MIN_VALUE       0X14
+#define DEFAULT_MAX_VALUE       0X23
 // TODO Insert declarations
 
 // Comment a function and leverage automatic documentation with slash star star

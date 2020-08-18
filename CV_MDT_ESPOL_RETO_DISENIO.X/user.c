@@ -12,6 +12,9 @@
 uint8_t contador = 0;
 bool change = false;
 
+/*
+ * Funciones para el contador
+ */
 void incCounter(void){
     contador = (contador>=99)?0:contador+1;
     change = true;
@@ -28,6 +31,9 @@ bool isChangeCounter(void){
     return change;
 }
 
+/*
+ * Funciones para escritura/lectura EEPROM I2C
+ */
 void WRITE_EEPROM_I2C(uint8_t address,uint16_t reg,uint8_t data) {
     
     I2C_Start();    
@@ -57,6 +63,9 @@ uint8_t READ_EEPROM_DATA(uint8_t address,uint16_t reg){
     return data; 
 }
 
+/*
+ * Funciones para escritura/lectura esclavos I2C
+ */
 void WRITE_SLAVE_I2C(uint8_t address,uint8_t data) {
     
     I2C_Start();    
