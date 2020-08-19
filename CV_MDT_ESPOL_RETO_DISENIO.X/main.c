@@ -59,20 +59,14 @@ void main(void)
     
     I2C_Initialize();
     I2C_Master_Initialize();
-    if(READ_EEPROM_DATA(ADDRESS_SLAVE_EEPROM,ADDRESS_EEPROM_EXT_INIT) != VALUE_EEPROM_EXT_INIT){
-        WRITE_EEPROM_I2C(ADDRESS_SLAVE_EEPROM,0X00,DEFAULT_MIN_VALUE);
-        WRITE_EEPROM_I2C(ADDRESS_SLAVE_EEPROM,0X01,DEFAULT_MAX_VALUE);
-        WRITE_EEPROM_I2C(ADDRESS_SLAVE_EEPROM,ADDRESS_EEPROM_EXT_INIT,VALUE_EEPROM_EXT_INIT);
-    }
+    alarms_Initialize();
     
     while (1)
     {
         if(isChangeCounter()){
             WRITE_SLAVE_I2C(ADDRESS_SLAVE1,getCounter());
+            WRITE_SLAVE_I2C_16BITS(ADDRESS_SLAVE2,0xFF00|getCounter());
         }
-        /*uint8_t dato = READ_SLAVE_DATA(0x20);
-        WRITE_SLAVE_I2C(0x20,dato);
-        __delay_ms(1000);*/
     }
 }
 /**

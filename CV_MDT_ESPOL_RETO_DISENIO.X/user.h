@@ -40,6 +40,8 @@
 #define ADDRESS_SLAVE2          0X30
 #define ADDRESS_SLAVE_EEPROM    0XA0
 #define ADDRESS_EEPROM_EXT_INIT 0XFF
+#define ADDRESS_EEPROM_MIN      0X00
+#define ADDRESS_EEPROM_MAX      0X01
 #define VALUE_EEPROM_EXT_INIT   0X55
 
 #define DEFAULT_MIN_VALUE       0X14
@@ -77,12 +79,16 @@ extern "C" {
 void WRITE_EEPROM_I2C(uint8_t address,uint16_t reg,uint8_t data);
 uint8_t READ_EEPROM_DATA(uint8_t address,uint16_t reg);
 void WRITE_SLAVE_I2C(uint8_t address,uint8_t data);
+void WRITE_SLAVE_I2C_16BITS(uint8_t address,uint16_t data);
 uint8_t READ_SLAVE_DATA(uint8_t address);
 
 void incCounter(void);
 void decCounter(void);
 uint8_t getCounter(void);
 bool isChangeCounter(void);
+
+void alarms_Initialize(void);
+void sendAlarmsI2C(uint8_t address, uint8_t min, uint8_t max);
 
 #ifdef	__cplusplus
 }
