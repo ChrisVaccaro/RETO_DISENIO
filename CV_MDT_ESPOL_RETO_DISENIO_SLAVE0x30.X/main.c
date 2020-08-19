@@ -44,10 +44,8 @@
 #pragma warning disable 520,1498
 #include "mcc_generated_files/mcc.h"
 #include "I2C.h"
+#include "User.h"
 
-uint8_t max_limit = 0, min_limit = 0;
-uint8_t contador;
-uint16_t valori2c;
 /*
                          Main application
  */
@@ -61,34 +59,22 @@ void main(void)
 
     I2C_Initialize();
     I2C_Slave_Initialize(0x30);
+    LCD_Initialize();
+    LCD_Print_X_Y(0,0,"  RANGO NORMAL");
+    LCD_Print_X_Y(0,1,"MIN:    MAX:");
     
     while (1)
     {
         if(I2C_isDataReady()){
-            valori2c = I2C_getDataSlave();
+            uint16_t valori2c = I2C_getDataSlave();
             if((valori2c&0xFF00) == 0xFF00){
-                contador = valori2c;
-                if(contador > max_limit || contador < min_limit){
-                    IO_RB5_SetHigh();
-                    IO_RB7_SetLow();
-                }
-                else{
-                    IO_RB5_SetLow();
-                    IO_RB7_SetHigh();
-                }
+                setContador(valori2c);
+                updateLeds();
             }
             else{
-                max_limit = valori2c >> 8;
-                min_limit = valori2c;
-                
-                if(contador > max_limit || contador < min_limit){
-                    IO_RB5_SetHigh();
-                    IO_RB7_SetLow();
-                }
-                else{
-                    IO_RB5_SetLow();
-                    IO_RB7_SetHigh();
-                }
+                setLimites(valori2c >> 8, valori2c);
+                updateLeds();
+                displayLimitsLCD();
             }
         }
     }
