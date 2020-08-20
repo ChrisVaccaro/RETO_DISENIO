@@ -54,6 +54,7 @@
 void (*IOCAF0_InterruptHandler)(void);
 void (*IOCAF1_InterruptHandler)(void);
 
+
 void PIN_MANAGER_Initialize(void)
 {
     /**
@@ -67,7 +68,7 @@ void PIN_MANAGER_Initialize(void)
     TRISx registers
     */
     TRISA = 0x37;
-    TRISB = 0xF0;
+    TRISB = 0x70;
     TRISC = 0xFF;
 
     /**
@@ -132,6 +133,9 @@ void PIN_MANAGER_Initialize(void)
     // Enable IOCI interrupt 
     INTCONbits.IOCIE = 1; 
     
+	
+    RXPPS = 0x0D;   //RB5->EUSART:RX;    
+    RB7PPS = 0x12;   //RB7->EUSART:TX;    
 }
   
 void PIN_MANAGER_IOC(void)

@@ -56,6 +56,17 @@ void __interrupt() INTERRUPT_InterruptManager (void)
     {
         PIN_MANAGER_IOC();
     }
+    else if(INTCONbits.PEIE == 1)
+    {
+        if(PIE1bits.RCIE == 1 && PIR1bits.RCIF == 1)
+        {
+            EUSART_RxDefaultInterruptHandler();
+        } 
+        else
+        {
+            //Unhandled Interrupt
+        }
+    }      
     else
     {
         //Unhandled Interrupt
