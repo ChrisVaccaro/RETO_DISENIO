@@ -133,3 +133,104 @@ uint8_t READ_SLAVE_DATA(uint8_t address){
     
     return data; 
 }
+
+void interfaz(void){
+    switch(etapa){
+        case 0:
+            printf("\r\n\r\n");
+            printf("==============================\r\n");
+            printf("===     RETO MDT-ESPOL     ===\r\n");
+            printf("=== CHRISTOPHER VACCARO C. ===\r\n");
+            printf("==============================\r\n");
+            
+            etapa++;
+            break;
+        case 1:
+            printf("\r\nIngrese el codigo de acceso: ");
+            etapa++;
+            break;
+        case 2:
+            almacenarTexto(true);
+            break;
+        case 3:
+            i=0;
+            if(strcmp(input,PASSWORD) == 0){
+                printf("\r\n\r\nAcceso exitoso!!!");
+                etapa++;
+            }
+            else etapa=1;
+            break;
+        case 4:
+            printf("\r\n\r\nSeleccione un modo de acceso\r\n");
+            printf("1. Modo opciones\r\n");
+            printf("2. Modo comandos\r\n");
+            printf("3. Salir\r\n");
+            etapa++;
+            break;
+        case 5:
+            printf("\r\nIngrese una opcion: ");
+            etapa++;
+            break;
+        case 6:
+            almacenarTexto(false);
+            break;
+        case 7:
+            i=0;
+            if(strcmp(input,"1") == 0) etapa = 8;
+            else if(strcmp(input,"2") == 0) etapa = 20; /**********************************************/
+            else if(strcmp(input,"3") == 0) etapa = 0;
+            else etapa = 5;
+            break;
+        case 8:
+            printf("\r\n\r\n");
+            printf(" 1. Obtener contador               (Coordinador)\r\n");
+            printf(" 2. Obtener estados DIPSwitch      (Disp 0x20)\r\n");
+            printf(" 3. Obtener DIPSwitch activados    (Disp 0x20)\r\n");
+            printf(" 4. Obtener DIPSwitch desactivados (Disp 0x20)\r\n");
+            printf(" 5. Obtener estados especificos    (Disp 0x20)\r\n");
+            printf(" 6. Obtener estado del SISTEMA     (Disp 0x30)\r\n");
+            printf(" 7. Obtener alarmas configuradas   (Disp 0xA0)\r\n");
+            printf(" 8. Configurar alarmas             (Disp 0xA0)\r\n");
+            printf(" 9. Regresar al menu anterior\r\n");
+            printf("10. Salir\r\n");
+            etapa++;
+            break;
+        case 9:
+            printf("\r\nIngrese una opcion: ");
+            etapa++;
+            break;
+        case 10:
+            almacenarTexto(false);
+            break;
+        case 11:
+            i=0;
+            if(strcmp(input,"1") == 0) etapa = 20;
+            else if(strcmp(input,"2") == 0) etapa = 20;
+            else if(strcmp(input,"3") == 0) etapa = 20;
+            else if(strcmp(input,"4") == 0) etapa = 20;
+            else if(strcmp(input,"5") == 0) etapa = 20;
+            else if(strcmp(input,"6") == 0) etapa = 20;
+            else if(strcmp(input,"7") == 0) etapa = 20;
+            else if(strcmp(input,"8") == 0) etapa = 20;
+            else if(strcmp(input,"9") == 0) etapa = 4;
+            else if(strcmp(input,"10") == 0) etapa = 0;
+            else etapa = 9;
+            break;
+        case 12:
+            break;
+        case 13:
+            break;
+        case 14:
+            break;
+        case 15:
+            break;
+        case 16:
+            break;
+        case 17:
+            break;
+        case 18:
+            break;
+        default:
+            break;
+    }
+}
