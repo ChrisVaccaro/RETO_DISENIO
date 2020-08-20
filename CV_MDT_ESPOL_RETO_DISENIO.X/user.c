@@ -48,6 +48,23 @@ void sendAlarmsI2C(uint8_t address, uint8_t min, uint8_t max){
 }
 
 /*
+ * Funciones para UART
+ */
+void almacenarTexto(bool cifrado){
+    uint8_t etapa_act = etapa;
+    while(EUSART_DataReady){
+        caracter = EUSART_Read(cifrado);
+        if(caracter!='\r' && caracter!='\n' && i<MAX_SIZE-1)input[i++]=caracter;
+        else{
+            input[i]=0;
+            etapa = etapa_act + 1;
+           //No se hace "etapa++", porque se puede recibir \r\n consecutivamente
+           //y "etapa" se incrementaría dos veces
+        }
+    }
+}
+
+/*
  * Funciones para escritura/lectura EEPROM I2C
  */
 void WRITE_EEPROM_I2C(uint8_t address,uint16_t reg,uint8_t data) {

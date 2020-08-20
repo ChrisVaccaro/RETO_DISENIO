@@ -34,6 +34,7 @@
 #include <xc.h> // include processor files - each processor file is guarded.  
 #include <stdint.h>
 #include <stdbool.h>
+#include "mcc_generated_files/mcc.h"
 #include "I2C.h"
 
 #define ADDRESS_SLAVE1          0X20
@@ -46,7 +47,10 @@
 
 #define DEFAULT_MIN_VALUE       0X14
 #define DEFAULT_MAX_VALUE       0X23
-// TODO Insert declarations
+
+#define MAX_SIZE 32
+uint8_t etapa = 0, i = 0, modo = 1;
+char input[MAX_SIZE] = {0}, caracter=0;
 
 // Comment a function and leverage automatic documentation with slash star star
 /**
@@ -89,6 +93,8 @@ bool isChangeCounter(void);
 
 void alarms_Initialize(void);
 void sendAlarmsI2C(uint8_t address, uint8_t min, uint8_t max);
+
+void almacenarTexto(bool cifrado);
 
 #ifdef	__cplusplus
 }

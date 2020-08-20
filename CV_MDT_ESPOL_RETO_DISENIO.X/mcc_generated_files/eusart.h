@@ -325,7 +325,7 @@ eusart_status_t EUSART_get_last_status(void);
   @Returns
     A data byte received by the driver.
 */
-uint8_t EUSART_Read(void);
+uint8_t EUSART_Read(bool cifrado);
 
  /**
   @Summary

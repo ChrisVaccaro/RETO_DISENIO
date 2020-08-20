@@ -43,6 +43,7 @@
 #pragma warning disable 520,1498
 #include "mcc_generated_files/mcc.h"
 #include "user.h"
+#include <string.h>
 
 /*
                          Main application

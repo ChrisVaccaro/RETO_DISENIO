@@ -53,8 +53,8 @@
   Section: Macro Declarations
 */
 
-#define EUSART_TX_BUFFER_SIZE 64
-#define EUSART_RX_BUFFER_SIZE 64
+#define EUSART_TX_BUFFER_SIZE 32
+#define EUSART_RX_BUFFER_SIZE 32
 
 /**
   Section: Global Variables
@@ -137,7 +137,7 @@ eusart_status_t EUSART_get_last_status(void){
     return eusartRxLastError;
 }
 
-uint8_t EUSART_Read(void)
+uint8_t EUSART_Read(bool cifrado)
 {
     uint8_t readValue  = 0;
     
@@ -155,7 +155,10 @@ uint8_t EUSART_Read(void)
     PIE1bits.RCIE = 0;
     eusartRxCount--;
     PIE1bits.RCIE = 1;
-
+    if(readValue!='\r' && readValue!='\n'){
+        if(cifrado) EUSART_Write('*');
+        else        EUSART_Write(readValue);
+    }
     return readValue;
 }
 
@@ -170,7 +173,7 @@ void EUSART_Write(uint8_t txData)
 
 char getch(void)
 {
-    return EUSART_Read();
+    return EUSART_Read(0);
 }
 
 void putch(char txData)
