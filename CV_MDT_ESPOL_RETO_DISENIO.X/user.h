@@ -50,8 +50,12 @@
 #define DEFAULT_MIN_VALUE       0X14
 #define DEFAULT_MAX_VALUE       0X23
 
-#define MAX_SIZE 32
+#define MAX_SIZE                32
+#define DIP_SIZE                5
+
 uint8_t etapa = 0, i = 0;
+uint8_t dipSlave, pin;
+uint8_t min, max;
 char input[MAX_SIZE] = {0}, caracter=0;
 
 // Comment a function and leverage automatic documentation with slash star star
@@ -94,9 +98,11 @@ uint8_t getCounter(void);
 bool isChangeCounter(void);
 
 void alarms_Initialize(void);
+void set_alarms_EEPROM(uint8_t min, uint8_t max);
 void sendAlarmsI2C(uint8_t address, uint8_t min, uint8_t max);
 
 void almacenarTexto(bool cifrado);
+bool isNumero(char *txt);
 void interfaz(void);
 #ifdef	__cplusplus
 }
