@@ -124,7 +124,7 @@ void I2C_Slave_ISR(void){
     else if(!SSP1STATbits.D_nA && SSP1STATbits.R_nW){//address+read
         uint8_t valor = SSP1BUF; //limpiar el buffer(address)
         SSP1STATbits.BF = 0;
-        SSP1BUF = 0;
+        SSP1BUF = LATBbits.LATB7;
         SSPCON1bits.CKP = 1;
         while(SSP1STATbits.BF);
     }
